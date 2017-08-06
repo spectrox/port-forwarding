@@ -9,11 +9,11 @@ What's inside?
 
 - Vagrantfile with multiple virtual network interfaces preconfigured. It's here for tests.
 - Dockerfile having ssh server inside for port forwarding/publishing.
-- Bash script to create containers and clear unused automatically.
+- Bash scripts to create containers and clear unused automatically.
 
 ## How to use it (soft way)
 
-Copy scripts from `bin` to your proxy server and get docker running.
+Copy scripts from `bin` to your proxy server and get docker running (or just `vagrant up` if you're playing on localhost).
 Build docker image, then start server with `server-new-agent.sh <port1> <port2> ...` specifying ports you want to publish.
 Start ssh tunnel from your working machine to proxy server.
 
