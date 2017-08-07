@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-WAIT_SECONDS=600
+set -e
+
+WAIT_SECONDS=300
 DOCKER_PID_PATH="{{.State.Pid}}"
 DOCKER_STARTED_AT_PATH="{{.State.StartedAt}}"
 
@@ -23,8 +25,7 @@ for CONTAINER_ID in $(docker ps -q); do
     echo "Active connections: ${COUNT}"
 
     if [ "${COUNT}" == "0" ]; then
-        SECONDS_SINCE_START=$(date -u -d "0 ${CURRENT_TS} seconds - ${STARTED_TS} seconds" +"%s")
-
+        SECONDS_SINCE_START=$(($CURRENT_TS - $STARTED_TS))
         echo "Seconds since start passed: ${SECONDS_SINCE_START}"
 
         if [ "$SECONDS_SINCE_START" -gt "$WAIT_SECONDS" ]; then

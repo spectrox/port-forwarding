@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 
+set -e
+
 CONTAINER_IMAGE="eg_sshd"
 CONTAINER_NAME_PREFIX="sshd_"
 
 SSH_PUBLIC_PORT="2222"
 
 # Find all server ips excluding localhost
-ALL_IPS=$(ifconfig | grep 'inet addr:' | grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1 }' | shuf)
+ALL_IPS=$(ip route get 8.8.8.8 | awk '/src/ { print $NF }')
 
 echo "Found IPs:"
 echo "${ALL_IPS}"
 echo ""
 echo "Checking IPs one by one"
 
+PORTS_MATCH=$(echo "$@" | sed 's/ /|/')
+
 # Looking for first ip without connections
 for CURRENT_IP in $ALL_IPS; do
-    USAGES=$(netstat -tap | grep "${CURRENT_IP}" | wc -l)
+    USAGES=$(netstat -tapn | egrep "${CURRENT_IP}\:($PORTS_MATCH)" | wc -l)
 
     echo "IP ${CURRENT_IP} has ${USAGES} usages"
 
