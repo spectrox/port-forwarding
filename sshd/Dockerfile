@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 
 #RUN echo 'root:screencast' | chpasswd
-RUN useradd client -s /bin/bash /client -m
+RUN useradd client -s /bin/bash -d /client -m
 #RUN echo 'client:ssh' | chpasswd
 
 # SSH restrict root login
